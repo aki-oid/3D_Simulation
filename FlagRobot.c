@@ -1,5 +1,3 @@
-/*  c6-2.c   Copyright (c) 2003 by T. HAYASHI and K. KATO  */
-/*                                    All rights reserved  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -592,4 +590,5 @@ int main(int argc, char** argv)
 	glutMainLoop(); 
 	return(0);
 }	
+
 
