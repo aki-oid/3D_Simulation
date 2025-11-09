@@ -1,8 +1,7 @@
 /*  myShape.h   Copyright (c) 2003 by T. HAYASHI and K. KATO  */
 /*                                       All rights reserved  */
 
-//ƒƒPƒbƒg‚Æ‚µ‚Ä•¡”‚Ì}Œ`‚ğƒ‚ƒfƒŠƒ“ƒO‚µAƒŠƒXƒg‰»‚·‚é
-
+//ãƒ­ã‚±ãƒƒãƒˆã¨ã—ã¦è¤‡æ•°ã®å›³å½¢ã‚’ãƒ¢ãƒ‡ãƒªãƒ³ã‚°ã—ã€ãƒªã‚¹ãƒˆåŒ–ã™ã‚‹
 #define PI 3.1415926534
 #define RIGHT 0
 #define LEFT 1
@@ -16,9 +15,10 @@ float arm_width = 15.0;
 static int str_num , motion_num, left_right, i_xyz;
 int walk_frame = 0;
 int is_walking = FALSE;
+
 struct Robot_Leg
 {
-	float xyz_def[2][3];//•t‚¯ªA‘«ñ
+	float xyz_def[2][3];//ä»˜ã‘æ ¹ã€è¶³é¦–
 	float xyz[2][3];
 
 	float angle[2];
@@ -28,9 +28,9 @@ struct Robot_Leg
 };
 struct Robot_Arm
 {
-	float xyz_def[2][3];//Œ¨Aèñ
+	float xyz_def[2][3];//è‚©ã€æ‰‹é¦–
 	float xyz[2][3];
-	float flag_xyz[3][3];//‚¿è‚ğœ‚¢‚½3“_
+	float flag_xyz[3][3];//æŒã¡æ‰‹ã‚’é™¤ã„ãŸ3ç‚¹
 
 	float angle[2];
 	float axis_x[2], axis_y[2], axis_z[2];
@@ -40,87 +40,87 @@ struct Robot_Arm
 
 void rad_length_Leg(struct Robot_Leg* a,int n);
 void rad_length_Arm(struct Robot_Arm* a,int n);
-void flag_Arm(struct Robot_Arm* a);//˜r‚ÌˆÊ’u‚©‚çŠø‚ÌˆÊ’u‚ğŒˆ‚ß‚éŠÖ”
+void flag_Arm(struct Robot_Arm* a);//è…•ã®ä½ç½®ã‹ã‚‰æ——ã®ä½ç½®ã‚’æ±ºã‚ã‚‹é–¢æ•°
 
 struct Robot_Leg Leg_LR[2];
 struct Robot_Arm Arm_LR[2];
 
 void rad_length_Leg(struct Robot_Leg* a, int n) {
 	float dx, dy, dz;
-	float zx = 0.0, zy = 0.0, zz = 1.0;	// Z²ƒxƒNƒgƒ‹
+	float zx = 0.0, zy = 0.0, zz = 1.0;	// Zè»¸ãƒ™ã‚¯ãƒˆãƒ«
 	float dot, len1, len2;
 	
-	// ˆÊ’u‚Æ•ûŒü‚Æ’·‚³‚ğŒvZ‚·‚é
+	// ä½ç½®ã¨æ–¹å‘ã¨é•·ã•ã‚’è¨ˆç®—ã™ã‚‹
 	dx = a->xyz[n+1][X] - a->xyz[n][X];
 	dy = a->xyz[n+1][Y] - a->xyz[n][Y];
 	dz = a->xyz[n+1][Z] - a->xyz[n][Z];
-	a->length[n] = sqrt(dx * dx + dy * dy + dz * dz); // ‹——£i’·‚³j
+	a->length[n] = sqrt(dx * dx + dy * dy + dz * dz); // è·é›¢ï¼ˆé•·ã•ï¼‰
 
-	// ‰ñ“]² (ZƒxƒNƒgƒ‹ ~ (dx, dy, dz)) ŠOÏ
+	// å›è»¢è»¸ (Zãƒ™ã‚¯ãƒˆãƒ« Ã— (dx, dy, dz)) å¤–ç©
 	a->axis_x[n] = zy * dz - zz * dy;
 	a->axis_y[n] = zz * dx - zx * dz;
 	a->axis_z[n] = zx * dy - zy * dx;
 
-	// ‰ñ“]Šp (ZƒxƒNƒgƒ‹‚Æƒ^[ƒQƒbƒgƒxƒNƒgƒ‹‚Ì‚È‚·Šp)
-	dot = zx * dx + zy * dy + zz * dz; // “àÏ
-	len1 = sqrt(zx * zx + zy * zy + zz * zz); // ZƒxƒNƒgƒ‹‚Ì’·‚³i1j
-	len2 = sqrt(dx * dx + dy * dy + dz * dz); // –Ú•WƒxƒNƒgƒ‹‚Ì’·‚³
-	a->angle[n] = acos(dot / (len1 * len2)) * 180.0 / PI; // acos¨ƒ‰ƒWƒAƒ“¨“x‚É•ÏŠ·
+	// å›è»¢è§’ (Zãƒ™ã‚¯ãƒˆãƒ«ã¨ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ™ã‚¯ãƒˆãƒ«ã®ãªã™è§’)
+	dot = zx * dx + zy * dy + zz * dz; // å†…ç©
+	len1 = sqrt(zx * zx + zy * zy + zz * zz); // Zãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ï¼ˆï¼1ï¼‰
+	len2 = sqrt(dx * dx + dy * dy + dz * dz); // ç›®æ¨™ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•
+	a->angle[n] = acos(dot / (len1 * len2)) * 180.0 / PI; // acosâ†’ãƒ©ã‚¸ã‚¢ãƒ³â†’åº¦ã«å¤‰æ›
 }
 void rad_length_Arm(struct Robot_Arm* a, int n) {
 	float dx, dy, dz;
-	float zx = 0.0, zy = 0.0, zz = 1.0;	// Z²ƒxƒNƒgƒ‹
+	float zx = 0.0, zy = 0.0, zz = 1.0;	// Zè»¸ãƒ™ã‚¯ãƒˆãƒ«
 	float dot, len1, len2;
 	
-	// ˆÊ’u‚Æ•ûŒü‚Æ’·‚³‚ğŒvZ‚·‚é
+	// ä½ç½®ã¨æ–¹å‘ã¨é•·ã•ã‚’è¨ˆç®—ã™ã‚‹
 	dx = a->xyz[n+1][X] - a->xyz[n][X];
 	dy = a->xyz[n+1][Y] - a->xyz[n][Y];
 	dz = a->xyz[n+1][Z] - a->xyz[n][Z];
-	a->length[n] = sqrt(dx * dx + dy * dy + dz * dz); // ‹——£i’·‚³j
+	a->length[n] = sqrt(dx * dx + dy * dy + dz * dz); // è·é›¢ï¼ˆé•·ã•ï¼‰
 
-	// ‰ñ“]² (ZƒxƒNƒgƒ‹ ~ (dx, dy, dz)) ŠOÏ
+	// å›è»¢è»¸ (Zãƒ™ã‚¯ãƒˆãƒ« Ã— (dx, dy, dz)) å¤–ç©
 	a->axis_x[n] = zy * dz - zz * dy;
 	a->axis_y[n] = zz * dx - zx * dz;
 	a->axis_z[n] = zx * dy - zy * dx;
 
-	// ‰ñ“]Šp (ZƒxƒNƒgƒ‹‚Æƒ^[ƒQƒbƒgƒxƒNƒgƒ‹‚Ì‚È‚·Šp)
-	dot = zx * dx + zy * dy + zz * dz; // “àÏ
-	len1 = sqrt(zx * zx + zy * zy + zz * zz); // ZƒxƒNƒgƒ‹‚Ì’·‚³i1j
-	len2 = sqrt(dx * dx + dy * dy + dz * dz); // –Ú•WƒxƒNƒgƒ‹‚Ì’·‚³
-	a->angle[n] = acos(dot / (len1 * len2)) * 180.0 / PI; // acos¨ƒ‰ƒWƒAƒ“¨“x‚É•ÏŠ·
+	// å›è»¢è§’ (Zãƒ™ã‚¯ãƒˆãƒ«ã¨ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ™ã‚¯ãƒˆãƒ«ã®ãªã™è§’)
+	dot = zx * dx + zy * dy + zz * dz; // å†…ç©
+	len1 = sqrt(zx * zx + zy * zy + zz * zz); // Zãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ï¼ˆï¼1ï¼‰
+	len2 = sqrt(dx * dx + dy * dy + dz * dz); // ç›®æ¨™ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•
+	a->angle[n] = acos(dot / (len1 * len2)) * 180.0 / PI; // acosâ†’ãƒ©ã‚¸ã‚¢ãƒ³â†’åº¦ã«å¤‰æ›
 }
 
 void flag_Arm(struct Robot_Arm* a) {
 	float vx, vy, vz, length;
-	float nx, ny; // ‚’¼ƒxƒNƒgƒ‹
+	float nx, ny; // å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 
-	// ƒxƒNƒgƒ‹v = P1 - P0
+	// ãƒ™ã‚¯ãƒˆãƒ«v = P1 - P0
 	vx = a->xyz[1][X] - a->xyz[0][X];
 	vy = a->xyz[1][Y] - a->xyz[0][Y];
 	vz = a->xyz[1][Z] - a->xyz[0][Z];
 
-	// v‚Ì’·‚³
+	// vã®é•·ã•
 	length = sqrt(vx*vx + vy*vy);
 
-	// ŠO•ª“_iP2j: P2 = P1 + v
+	// å¤–åˆ†ç‚¹ï¼ˆP2ï¼‰: P2 = P1 + v
 	a->flag_xyz[0][X] = a->xyz[1][X] + vx;
 	a->flag_xyz[0][Y] = a->xyz[1][Y] + vy;
 	a->flag_xyz[0][Z] = a->xyz[1][Z] + vz;
 
-	// ‚’¼‚È’PˆÊƒxƒNƒgƒ‹iŒv‰ñ‚è90“xj
+	// å‚ç›´ãªå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ï¼ˆæ™‚è¨ˆå›ã‚Š90åº¦ï¼‰
 	nx =  vy / length;
 	ny = -vx / length;
 
 	if (a->xyz[2][Y] + ny * length >= a->flag_xyz[0][Y]) {
-		nx = -nx;// ã•ûŒü‚És‚Á‚Ä‚µ‚Ü‚¤ ¨ ”½“]‚³‚¹‚é
+		nx = -nx;// ä¸Šæ–¹å‘ã«è¡Œã£ã¦ã—ã¾ã† â†’ åè»¢ã•ã›ã‚‹
 		ny = -ny;
 	}
-	// ³•ûŒ`‚ÌŠø‚ÌŠp: flag_xyz[2] = P1 + ‚’¼•ûŒü‚Élengthi‚Ş
+	// æ­£æ–¹å½¢ã®æ——ã®è§’: flag_xyz[2] = P1 + å‚ç›´æ–¹å‘ã«lengthé€²ã‚€
 	a->flag_xyz[2][X] = a->xyz[1][X] + nx * length;
 	a->flag_xyz[2][Y] = a->xyz[1][Y] + ny * length;
 	a->flag_xyz[2][Z] = a->xyz[1][Z];
 
-	// c‚è‚ÌŠø‚Ì“_: flag_xyz[1] = flag_xyz[2] + v
+	// æ®‹ã‚Šã®æ——ã®ç‚¹: flag_xyz[1] = flag_xyz[2] + v
 	a->flag_xyz[1][X] = a->flag_xyz[2][X] + vx;
 	a->flag_xyz[1][Y] = a->flag_xyz[2][Y] + vy;
 	a->flag_xyz[1][Z] = a->flag_xyz[0][Z];
@@ -131,23 +131,23 @@ void walkAnimation(int value) {
 		float walk_amplitude = 1.0f;
 		float walk_speed = 0.005f;
 
-		// ¶‰E‚Ì‘«‚ğŒğŒİ‚É‘OŒã‚É“®‚©‚·
+		// å·¦å³ã®è¶³ã‚’äº¤äº’ã«å‰å¾Œã«å‹•ã‹ã™
 		for (int lr = RIGHT; lr <= LEFT; lr++) {
-			float phase = (lr == RIGHT) ? 0.0f : 3.1415f; // ‰E‘«‚Æ¶‘«‚ÅˆÊ‘Š‚ğ‚¸‚ç‚·
+			float phase = (lr == RIGHT) ? 0.0f : 3.1415f; // å³è¶³ã¨å·¦è¶³ã§ä½ç›¸ã‚’ãšã‚‰ã™
 			Leg_LR[lr].xyz[1][Z] = Leg_LR[lr].xyz_def[1][Z] + walk_amplitude * sin(walk_frame * walk_speed * 3+ phase);
 		}
 
 		walk_frame++;
 		glutPostRedisplay();
-		glutTimerFunc(16, walkAnimation, 0); // –ñ60FPS
+		glutTimerFunc(16, walkAnimation, 0); // ç´„60FPS
 	}
 }
-GLuint createRound() {//’n–Ê
+GLuint createRound() {//åœ°é¢
 	GLuint listID = glGenLists(1);
 	glNewList(listID, GL_COMPILE);
 		glPushMatrix();
 			glColor3f(1.0,1.0,1.0);
-			glBegin(GL_LINES);//’n–Ê‚ÌƒOƒŠƒbƒh*/
+			glBegin(GL_LINES);//åœ°é¢ã®ã‚°ãƒªãƒƒãƒ‰*/
 				for(int i= -RANGE;i<=RANGE;i+=2){
 					glVertex3f((float)i,0,-RANGE);
 					glVertex3f((float)i,0,RANGE);
