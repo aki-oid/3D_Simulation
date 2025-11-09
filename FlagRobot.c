@@ -589,6 +589,4 @@ int main(int argc, char** argv)
 	glutIdleFunc(idle);
 	glutMainLoop(); 
 	return(0);
-}	
-
-
+}
